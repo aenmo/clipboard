@@ -4,7 +4,7 @@
 //
 // Written by Changkun Ou <changkun.de>
 
-package main // go install golang.design/x/clipboard/cmd/gclip@latest
+package main // go install github.com/aenmo/clipboard/cmd/gclip@latest
 
 import (
 	"flag"
@@ -13,7 +13,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"golang.design/x/clipboard"
+	"github.com/aenmo/clipboard"
 )
 
 func usage() {
