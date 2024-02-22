@@ -35,37 +35,38 @@ void (*P_XDeleteProperty) (Display*, Window, Atom);
 void (*P_XConvertSelection)(Display*, Atom, Atom, Atom, Window, Time);
 
 int initX11() {
-	if (libX11) {
-		return 1;
-	}
-	libX11 = dlopen("libX11.so", RTLD_LAZY);
-	if (!libX11) {
-		return 0;
-	}
-	P_XOpenDisplay = (Display* (*)(int)) dlsym(libX11, "XOpenDisplay");
-	P_XCloseDisplay = (void (*)(Display*)) dlsym(libX11, "XCloseDisplay");
-	P_XDefaultRootWindow = (Window (*)(Display*)) dlsym(libX11, "XDefaultRootWindow");
-	P_XCreateSimpleWindow = (Window (*)(Display*, Window, int, int, int, int, int, int, int)) dlsym(libX11, "XCreateSimpleWindow");
-	P_XInternAtom = (Atom (*)(Display*, char*, int)) dlsym(libX11, "XInternAtom");
-	P_XSetSelectionOwner = (void (*)(Display*, Atom, Window, unsigned long)) dlsym(libX11, "XSetSelectionOwner");
-	P_XGetSelectionOwner = (Window (*)(Display*, Atom)) dlsym(libX11, "XGetSelectionOwner");
-	P_XNextEvent = (void (*)(Display*, XEvent*)) dlsym(libX11, "XNextEvent");
-	P_XChangeProperty = (int (*)(Display*, Window, Atom, Atom, int, int, unsigned char*, int)) dlsym(libX11, "XChangeProperty");
-	P_XSendEvent = (void (*)(Display*, Window, int, long , XEvent*)) dlsym(libX11, "XSendEvent");
-	P_XGetWindowProperty = (int (*)(Display*, Window, Atom, long, long, Bool, Atom, Atom*, int*, unsigned long *, unsigned long *, unsigned char **)) dlsym(libX11, "XGetWindowProperty");
-	P_XFree = (void (*)(void*)) dlsym(libX11, "XFree");
-	P_XDeleteProperty = (void (*)(Display*, Window, Atom)) dlsym(libX11, "XDeleteProperty");
-	P_XConvertSelection = (void (*)(Display*, Atom, Atom, Atom, Window, Time)) dlsym(libX11, "XConvertSelection");
-	return 1;
+    if (libX11) {
+    return 1;
+    }
+    libX11 = dlopen("libX11.so", RTLD_LAZY);
+    if (!libX11) {
+        return 0;
+    }
+    P_XOpenDisplay = (Display* (*)(int)) dlsym(libX11, "XOpenDisplay");
+    P_XCloseDisplay = (void (*)(Display*)) dlsym(libX11, "XCloseDisplay");
+    P_XDefaultRootWindow = (Window (*)(Display*)) dlsym(libX11, "XDefaultRootWindow");
+    P_XCreateSimpleWindow = (Window (*)(Display*, Window, int, int, int, int, int, int, int)) dlsym(libX11, "XCreateSimpleWindow");
+    P_XInternAtom = (Atom (*)(Display*, char*, int)) dlsym(libX11, "XInternAtom");
+    P_XSetSelectionOwner = (void (*)(Display*, Atom, Window, unsigned long)) dlsym(libX11, "XSetSelectionOwner");
+    P_XGetSelectionOwner = (Window (*)(Display*, Atom)) dlsym(libX11, "XGetSelectionOwner");
+    P_XNextEvent = (void (*)(Display*, XEvent*)) dlsym(libX11, "XNextEvent");
+    P_XChangeProperty = (int (*)(Display*, Window, Atom, Atom, int, int, unsigned char*, int)) dlsym(libX11, "XChangeProperty");
+    P_XSendEvent = (void (*)(Display*, Window, int, long , XEvent*)) dlsym(libX11, "XSendEvent");
+    P_XGetWindowProperty = (int (*)(Display*, Window, Atom, long, long, Bool, Atom, Atom*, int*, unsigned long *, unsigned long *, unsigned char **)) dlsym(libX11, "XGetWindowProperty");
+    P_XFree = (void (*)(void*)) dlsym(libX11, "XFree");
+    P_XDeleteProperty = (void (*)(Display*, Window, Atom)) dlsym(libX11, "XDeleteProperty");
+    P_XConvertSelection = (void (*)(Display*, Atom, Atom, Atom, Window, Time)) dlsym(libX11, "XConvertSelection");
+    return 1;
 }
 
 int clipboard_test() {
-	if (!initX11()) {
-		return -1;
-	}
+    int i;
+    if (!initX11()) {
+        return -1;
+    }
 
     Display* d = NULL;
-    for (int i = 0; i < 42; i++) {
+    for (i = 0; i < 42; i++) {
         d = (*P_XOpenDisplay)(0);
         if (d == NULL) {
             continue;
@@ -83,12 +84,13 @@ int clipboard_test() {
 // if start is provided, the value of start will be changed to 1 to indicate
 // if the write is availiable for reading.
 int clipboard_write(char *typ, unsigned char *buf, size_t n, uintptr_t handle) {
-	if (!initX11()) {
-		return -1;
-	}
+    int i;
+    if (!initX11()) {
+        return -1;
+    }
 
     Display* d = NULL;
-    for (int i = 0; i < 42; i++) {
+    for (i = 0; i < 42; i++) {
         d = (*P_XOpenDisplay)(0);
         if (d == NULL) {
             continue;
@@ -188,9 +190,10 @@ int clipboard_write(char *typ, unsigned char *buf, size_t n, uintptr_t handle) {
 // read_data reads the property of a selection if the target atom matches
 // the actual atom.
 unsigned long read_data(XSelectionEvent *sev, Atom sel, Atom prop, Atom target, char **buf) {
-	if (!initX11()) {
-		return -1;
-	}
+    int i;
+    if (!initX11()) {
+        return -1;
+    }
 
     unsigned char *data;
     Atom actual;
@@ -221,12 +224,13 @@ unsigned long read_data(XSelectionEvent *sev, Atom sel, Atom prop, Atom target, 
 //
 // The caller of this function should responsible for the free of the buf.
 unsigned long clipboard_read(char* typ, char **buf) {
-	if (!initX11()) {
-		return -1;
-	}
+    int i;
+    if (!initX11()) {
+        return -1;
+    }
 
     Display* d = NULL;
-    for (int i = 0; i < 42; i++) {
+    for (i = 0; i < 42; i++) {
         d = (*P_XOpenDisplay)(0);
         if (d == NULL) {
             continue;
